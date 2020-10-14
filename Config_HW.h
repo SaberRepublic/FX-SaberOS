@@ -20,9 +20,9 @@
  *  If you have a home-brew solution using the Arduino Nano, choose DIYINO_PRIME below
  */
 
-//#define DIYINO_PRIME // including home-brew
+#define DIYINO_PRIME // including home-brew
 //#define DIYINO_STARDUST_V2
-#define DIYINO_STARDUST_V3
+//#define DIYINO_STARDUST_V3
 
 /***** BOARD PINOUT DEFINITIONS ******/
 
@@ -225,4 +225,3 @@
 #endif
 
 #endif /* CONFIG_HW_H_ */
-

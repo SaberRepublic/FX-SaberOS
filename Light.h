@@ -9,6 +9,9 @@
 #if not defined LIGHT_H_
 #define LIGHT_H_
 
+//needs to be defined befor WS2812 is included
+//#define RGBWLED
+
 #include <Arduino.h>
 #include <WS2812.h>
 #include "Config_HW.h"
@@ -21,22 +24,28 @@ enum AccentLedAction_En {AL_PULSE, AL_ON, AL_OFF};
 // ===              	    			LED FUNCTIONS		                		===
 // ====================================================================================
 
+#ifdef RGBWLED
+  #define BLACK {0,0,0,0}
+#else
+  #define BLACK {0,0,0}
+#endif // RGBWLED
+
 void BladeMeter (uint8_t ledPins[], int meterLevel); 
 
 // unified light functions
-void lightOn(uint8_t ledPins[], int8_t segment = -1, cRGB color={0,0,0}, int8_t StartPixel=-1, int8_t StopPixel=-1);
+void lightOn(uint8_t ledPins[], int8_t segment = -1, cRGB color=BLACK, int8_t StartPixel=-1, int8_t StopPixel=-1);
 void lightOff(uint8_t ledPins[], int8_t segment = -1, int8_t StartPixel=-1, int8_t StopPixel=-1);
-void getColor(cRGB color={0,0,0}); //getColor
+void getColor(cRGB color=BLACK); //getColor
 void RampBlade(uint16_t RampDuration, bool DirectionUpDown, int8_t StartPixel=-1, int8_t StopPixel=-1);
-void lightIgnition(uint8_t ledPins[], uint16_t time, uint8_t type, cRGB color={0,0,0}, int8_t StartPixel=-1, int8_t StopPixel=-1);
-void lightRetract(uint8_t ledPins[], uint16_t time, uint8_t type,cRGB color={0,0,0}, int8_t StartPixel=-1, int8_t StopPixel=-1);
-void lightFlicker(uint8_t ledPins[],uint8_t type, uint8_t value = 0,cRGB maincolor={0,0,0}, cRGB clashcolor={0,0,0},uint8_t AState=0, int8_t StartPixel=-1, int8_t StopPixel=-1);
-void ColorMixing(cRGB colorID={0,0,0}, int8_t mod=-1, uint8_t maxBrightness=MAX_BRIGHTNESS, bool Saturate=false);
-void lightBlasterEffect(uint8_t ledPins[], uint8_t pixel, uint8_t range, uint16_t B_time=BLASTER_FX_DURATION, cRGB SndFnt_MainColor={0,0,0});
-void lightClashEffect(uint8_t ledPins[], cRGB color={0,0,0});
+void lightIgnition(uint8_t ledPins[], uint16_t time, uint8_t type, cRGB color=BLACK, int8_t StartPixel=-1, int8_t StopPixel=-1);
+void lightRetract(uint8_t ledPins[], uint16_t time, uint8_t type,cRGB color=BLACK, int8_t StartPixel=-1, int8_t StopPixel=-1);
+void lightFlicker(uint8_t ledPins[],uint8_t type, uint8_t value = 0,cRGB maincolor=BLACK, cRGB clashcolor=BLACK,uint8_t AState=0, int8_t StartPixel=-1, int8_t StopPixel=-1);
+void ColorMixing(cRGB colorID=BLACK, int8_t mod=-1, uint8_t maxBrightness=MAX_BRIGHTNESS, bool Saturate=false);
+void lightBlasterEffect(uint8_t ledPins[], uint8_t pixel, uint8_t range, uint16_t B_time=BLASTER_FX_DURATION, cRGB SndFnt_MainColor=BLACK);
+void lightClashEffect(uint8_t ledPins[], cRGB color=BLACK);
 
 #ifdef JUKEBOX
-  void JukeBox_Stroboscope(uint8_t ledPins[], cRGB color={0,0,0});
+  void JukeBox_Stroboscope(uint8_t ledPins[], cRGB color=BLACK);
 #endif
 void pixelblade_KillKey_Enable();
 void pixelblade_KillKey_Disable();
@@ -55,7 +64,7 @@ void FoCOff (uint8_t pin);
   void FireBlade(uint8_t DominantColor=0);
   cRGB HeatColor( uint8_t temperature, uint8_t DominantColor);
   uint8_t scale8_video( uint8_t i, uint8_t scale);
-  uint8_t DominantMainColor(cRGB color={0,0,0});
+  uint8_t DominantMainColor(cRGB color=BLACK);
   #endif
 #endif
 
@@ -66,5 +75,3 @@ void accentLEDControl(AccentLedAction_En AccentLedAction);
   void AccentMeter (int MeterLevel);
 //#endif
 #endif /* LIGHT_H_ */
-
-
